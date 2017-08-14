@@ -1,5 +1,6 @@
 # Example of using ItemTouchHelper
 * Kotlin
+* Drag and swipe items with RecyclerView
 * [ItemTouchHelper](https://developer.android.com/reference/android/support/v7/widget/helper/ItemTouchHelper.SimpleCallback.html)   
 
 ![Snapshot](docs/snapshot.gif)
