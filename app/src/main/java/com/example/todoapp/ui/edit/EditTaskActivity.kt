@@ -71,9 +71,8 @@ class EditTaskActivity: BaseActivity() {
     }
 
     companion object {
-        fun start(activity: Activity, requestCode: Int) {
-            val intent = Intent(activity, EditTaskActivity::class.java)
-            activity.startActivityForResult(intent, requestCode)
+        fun getIntent(activity: Activity, requestCode: Int): Intent {
+            return Intent(activity, EditTaskActivity::class.java)
         }
     }
 
