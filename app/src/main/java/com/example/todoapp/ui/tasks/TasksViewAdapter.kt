@@ -15,6 +15,7 @@ class TasksViewAdapter(private val viewModel: TasksViewModel): RecyclerView.Adap
     init {
         viewModel.addObservableListCallBack(object: ObservableList.OnListChangedCallback<ObservableList<TaskViewModel>>(){
             override fun onChanged(sender: ObservableList<TaskViewModel>?) {
+                println(sender)
             }
 
             override fun onItemRangeChanged(sender: ObservableList<TaskViewModel>?, start: Int, count: Int) {
@@ -30,7 +31,7 @@ class TasksViewAdapter(private val viewModel: TasksViewModel): RecyclerView.Adap
             }
 
             override fun onItemRangeRemoved(sender: ObservableList<TaskViewModel>?, start: Int, count: Int) {
-                notifyItemRemoved(start)
+                notifyItemRangeRemoved(start, count)
             }
         })
     }

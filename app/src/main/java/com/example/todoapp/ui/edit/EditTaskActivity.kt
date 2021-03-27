@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import com.example.todoapp.R
 import com.example.todoapp.databinding.ActivityEditTaskBinding
+import com.example.todoapp.model.Task
 import com.example.todoapp.ui.base.BaseActivity
 import com.google.android.material.snackbar.Snackbar
 
@@ -29,10 +30,11 @@ class EditTaskActivity: BaseActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val tag = EditTaskFragment.TAG
-        val fm = supportFragmentManager
-        fm.findFragmentByTag(tag)?: EditTaskFragment.newInstance().apply {
-            fm.beginTransaction().add(R.id.container, this, tag).commit()
+        supportFragmentManager.findFragmentByTag(EditTaskFragment.TAG)?: EditTaskFragment.newInstance().apply {
+            supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.container, this, EditTaskFragment.TAG)
+                    .commit()
         }
     }
 
@@ -52,8 +54,8 @@ class EditTaskActivity: BaseActivity() {
 
     private fun save(): Boolean {
         viewModel.save(
-                { finishEdit() },
-                { showErrorSnackbar(it) }
+                { task -> finishEdit(task) },
+                { error -> showErrorSnackbar(error) }
         )
         return true
     }
@@ -65,15 +67,16 @@ class EditTaskActivity: BaseActivity() {
         }
     }
 
-    private fun finishEdit() {
-        setResult(Activity.RESULT_OK)
+    private fun finishEdit(task: Task) {
+        val intent = intent.apply {
+            putExtra("task", task)
+        }
+        setResult(Activity.RESULT_OK, intent)
         finish()
     }
 
     companion object {
-        fun getIntent(activity: Activity, requestCode: Int): Intent {
-            return Intent(activity, EditTaskActivity::class.java)
-        }
+        fun getIntent(activity: Activity) = Intent(activity, EditTaskActivity::class.java)
     }
 
 }

@@ -30,4 +30,8 @@ object TasksRepository {
         return tasks
     }
 
+    fun setTask(task: Task) {
+        tasks.add(task)
+    }
+
 }

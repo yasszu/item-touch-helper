@@ -2,6 +2,7 @@ package com.example.todoapp.ui.edit
 
 import androidx.lifecycle.ViewModel
 import androidx.databinding.ObservableField
+import com.example.todoapp.data.TasksRepository
 import com.example.todoapp.model.Task
 import com.example.todoapp.util.DateUtil
 
@@ -31,7 +32,7 @@ class EditTaskViewModel: ViewModel() {
         ERROR_CONTENT -> onError("No content!")
         else -> {
             // Save task on repository here
-
+            TasksRepository.setTask(_task)
             onSuccess(_task)
         }
     }
