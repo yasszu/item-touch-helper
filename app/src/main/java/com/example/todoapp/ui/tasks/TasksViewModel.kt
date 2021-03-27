@@ -20,7 +20,7 @@ class TasksViewModel: ViewModel(), TaskNavigator {
         fun onClickFAB()
     }
 
-    val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
     val taskItems: ObservableList<TaskViewModel> = ObservableArrayList()
 
@@ -34,7 +34,7 @@ class TasksViewModel: ViewModel(), TaskNavigator {
         fetchTasks()
     }
 
-    fun fetchTasks() {
+    private fun fetchTasks() {
         Observable.fromIterable(TasksRepository.getTasks())
                 .map { TaskViewModel(it) }
                 .doOnNext { it.setNavigator(this) }
@@ -62,12 +62,14 @@ class TasksViewModel: ViewModel(), TaskNavigator {
         listener?.onRemoveItem()
     }
 
-    fun storeLastItem(index: Int) {
+    private fun storeLastItem(index: Int) {
         lastItem = Pair(index, taskItems[index])
     }
 
     fun restoreLastItems() {
-        lastItem?.let { taskItems.add(it.first, it.second) }
+        lastItem?.let {
+            taskItems.add(it.first, it.second)
+        }
     }
 
     fun addObservableListCallBack(callback: ObservableList.OnListChangedCallback<ObservableList<TaskViewModel>>) {
@@ -75,12 +77,16 @@ class TasksViewModel: ViewModel(), TaskNavigator {
         observableListCallback = callback
     }
 
-    fun removeObservableListCallback() {
-        observableListCallback?.let { taskItems.removeOnListChangedCallback(it) }
+    private fun removeObservableListCallback() {
+        observableListCallback?.let {
+            taskItems.removeOnListChangedCallback(it)
+        }
     }
 
-    fun restoreObservableListCallback() {
-        observableListCallback?.let { taskItems.addOnListChangedCallback(it) }
+    private fun restoreObservableListCallback() {
+        observableListCallback?.let {
+            taskItems.addOnListChangedCallback(it)
+        }
     }
 
     /**

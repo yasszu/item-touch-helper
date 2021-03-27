@@ -51,7 +51,7 @@ class TasksViewAdapter(private val viewModel: TasksViewModel): RecyclerView.Adap
     }
 
     override fun onMoveItem(from: Int, to: Int) {
-        viewModel.moveItem(from, to, { notifyItemMoved(from, to) })
+        viewModel.moveItem(from, to) { notifyItemMoved(from, to) }
     }
 
     override fun onRemoveItem(from: Int) {

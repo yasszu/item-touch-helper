@@ -28,19 +28,17 @@ class TasksFragment : BaseFragment() {
         fun newInstance() = TasksFragment()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentTasksBinding.inflate(inflater, container, false)
-        initRecyclerView()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentTasksBinding.inflate(inflater, container, false).apply {
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager =  LinearLayoutManager(context)
+
+            // Set ItemTouchHelper
+            ItemTouchHelper(ItemTouchHelperCallback(adapter)).attachToRecyclerView(recyclerView)
+        }
         return binding.root
     }
 
-    private fun initRecyclerView() {
-        val layoutManager = LinearLayoutManager(context)
-        val itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(adapter))
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = layoutManager
-        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
-    }
 
 }
 

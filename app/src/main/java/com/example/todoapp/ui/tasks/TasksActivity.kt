@@ -16,7 +16,9 @@ import com.example.todoapp.ui.edit.EditTaskActivity
 
 class TasksActivity: BaseActivity(), TasksViewModel.Listener {
 
-    val REQUEST_EDIT_TASK = 1
+    companion object {
+        const val REQUEST_EDIT_TASK = 1
+    }
 
     lateinit var binding: ActivityTasksBinding
 
@@ -26,8 +28,15 @@ class TasksActivity: BaseActivity(), TasksViewModel.Listener {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tasks)
         setSupportActionBar(binding.toolbar)
-        initViewModel()
-        initFragment()
+
+        viewModel.listener = this
+        binding.viewModel = viewModel
+
+        supportFragmentManager.findFragmentByTag(TasksFragment.TAG)?: TasksFragment.newInstance().apply {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.container, this, tag)
+                    .commit()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -57,24 +66,9 @@ class TasksActivity: BaseActivity(), TasksViewModel.Listener {
         EditTaskActivity.start(this, REQUEST_EDIT_TASK)
     }
 
-    fun initViewModel() {
-        viewModel.listener = this
-        binding.viewModel = viewModel
-    }
-
-    fun initFragment() {
-        val fm = supportFragmentManager
-        val tag = TasksFragment.TAG
-        fm.findFragmentByTag(tag)?: TasksFragment.newInstance().apply {
-            fm.beginTransaction()
-                    .add(R.id.container, this, tag)
-                    .commit()
-        }
-    }
-
-    fun showDeleteSnackbar() {
+    private fun showDeleteSnackbar() {
         Snackbar.make(binding.parentLayout, R.string.item_remove, Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo, { viewModel.restoreLastItems() })
+                .setAction(R.string.undo) { viewModel.restoreLastItems() }
                 .show()
     }
 

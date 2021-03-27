@@ -8,14 +8,14 @@ import java.util.*
  */
 object DateUtil {
 
-    val PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ"
+    private const val PATTERN = "yyyy-MM-dd'T'HH:mm:ssZ"
 
     val currentDate: String
         get() = SimpleDateFormat(PATTERN, Locale.JAPAN)
                 .format(Calendar.getInstance().time)
                 .toString()
 
-    val timestump: Long
+    val timestamp: Long
         get() = System.currentTimeMillis()
 
 }

@@ -24,13 +24,14 @@ class EditTaskViewModel: ViewModel() {
     val content = ObservableField<String>()
 
     private val _task: Task
-        get() = Task(DateUtil.timestump, DateUtil.currentDate, title.get()!!, content.get()!!)
+        get() = Task(DateUtil.timestamp, DateUtil.currentDate, title.get()!!, content.get()!!)
 
     fun save(onSuccess: OnSuccess, onError: OnError) = when (validate()) {
         ERROR_TITLE -> onError("No title!")
         ERROR_CONTENT -> onError("No content!")
         else -> {
             // Save task on repository here
+
             onSuccess(_task)
         }
     }
