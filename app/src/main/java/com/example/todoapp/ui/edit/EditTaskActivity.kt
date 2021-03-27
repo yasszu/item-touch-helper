@@ -25,13 +25,15 @@ class EditTaskActivity: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_task)
-        initToolBar()
-        initFragment()
-    }
 
-    fun initToolBar() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val tag = EditTaskFragment.TAG
+        val fm = supportFragmentManager
+        fm.findFragmentByTag(tag)?: EditTaskFragment.newInstance().apply {
+            fm.beginTransaction().add(R.id.container, this, tag).commit()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -48,26 +50,22 @@ class EditTaskActivity: BaseActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    fun initFragment() {
-        val tag = EditTaskFragment.TAG
-        val fm = supportFragmentManager
-        fm.findFragmentByTag(tag)?: EditTaskFragment.newInstance().apply {
-            fm.beginTransaction().add(R.id.container, this, tag).commit()
-        }
-    }
-
-    fun save(): Boolean {
-        viewModel.save({ finishEdit() }, { showErrorSnackbar(it) })
+    private fun save(): Boolean {
+        viewModel.save(
+                { finishEdit() },
+                { showErrorSnackbar(it) }
+        )
         return true
     }
 
-    fun showErrorSnackbar(message: String) {
-        val snackbar = Snackbar.make(binding.parentLayout, message, Snackbar.LENGTH_LONG)
-        snackbar.setAction("OK", { snackbar.dismiss() })
-        snackbar.show()
+    private fun showErrorSnackbar(message: String) {
+        Snackbar.make(binding.parentLayout, message, Snackbar.LENGTH_LONG).apply {
+            setAction("OK") { dismiss() }
+            show()
+        }
     }
 
-    fun finishEdit() {
+    private fun finishEdit() {
         setResult(Activity.RESULT_OK)
         finish()
     }
