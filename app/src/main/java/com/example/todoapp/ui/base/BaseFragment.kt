@@ -1,6 +1,6 @@
 package com.example.todoapp.ui.base
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 /**
  * Created by Yasuhiro Suzuki on 2017/07/08.

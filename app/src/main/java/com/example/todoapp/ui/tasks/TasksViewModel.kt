@@ -1,8 +1,8 @@
 package com.example.todoapp.ui.tasks
 
-import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableArrayList
-import android.databinding.ObservableList
+import androidx.lifecycle.ViewModel
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableList
 import android.util.Log
 import android.view.View
 import com.example.todoapp.data.TasksRepository

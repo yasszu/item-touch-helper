@@ -1,6 +1,6 @@
 package com.example.todoapp.ui.tasks
 
-import android.databinding.ObservableField
+import androidx.databinding.ObservableField
 import android.view.View
 import com.example.todoapp.model.Task
 import java.lang.ref.WeakReference
@@ -24,7 +24,7 @@ class TaskViewModel(task: Task){
 
     /** Listener Binding */
     fun onClickItem(view: View) {
-        navigator?.get()?.onClickItem(task.get())
+        navigator?.get()?.onClickItem(task.get()!!)
     }
 
 }

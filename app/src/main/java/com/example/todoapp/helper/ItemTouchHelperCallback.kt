@@ -1,8 +1,9 @@
 package com.example.todoapp.helper
 
 import android.graphics.Canvas
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
+import kotlin.math.abs
 
 
 /**
@@ -27,9 +28,9 @@ class ItemTouchHelperCallback(val adapter: ItemTouchHelperAdapter): ItemTouchHel
         adapter.onRemoveItem(fromPos)
     }
 
-    override fun onChildDraw(c: Canvas?, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+    override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            val alpha = ALPHA_FULL - (Math.abs(dX) / viewHolder.itemView.width.toFloat()) * ALPHA_MAGNIFICATION
+            val alpha = ALPHA_FULL - (abs(dX) / viewHolder.itemView.width.toFloat()) * ALPHA_MAGNIFICATION
             viewHolder.itemView.alpha = alpha
             viewHolder.itemView.translationX = dX
         } else {

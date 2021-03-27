@@ -1,7 +1,7 @@
 package com.example.todoapp.ui.tasks
 
-import android.databinding.ObservableList
-import android.support.v7.widget.RecyclerView
+import androidx.databinding.ObservableList
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.todoapp.databinding.ItemTaskBinding
@@ -10,15 +10,9 @@ import com.example.todoapp.helper.ItemTouchHelperAdapter
 /**
  * Created by Yasuhiro Suzuki on 2017/06/18.
  */
-class TasksViewAdapter(val viewModel: TasksViewModel):
-        RecyclerView.Adapter<RecyclerView.ViewHolder>(),
-        ItemTouchHelperAdapter{
+class TasksViewAdapter(private val viewModel: TasksViewModel): RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter{
 
     init {
-        initViewModel()
-    }
-
-    fun initViewModel() {
         viewModel.addObservableListCallBack(object: ObservableList.OnListChangedCallback<ObservableList<TaskViewModel>>(){
             override fun onChanged(sender: ObservableList<TaskViewModel>?) {
             }
@@ -45,13 +39,13 @@ class TasksViewAdapter(val viewModel: TasksViewModel):
         return viewModel.taskItems.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, position: Int): RecyclerView.ViewHolder {
-        val inflater = LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, position: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
         val binding = ItemTaskBinding.inflate(inflater, parent ,false)
         return TaskViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder as TaskViewHolder
         holder.bind(viewModel.taskItems[position])
     }
@@ -64,7 +58,7 @@ class TasksViewAdapter(val viewModel: TasksViewModel):
         viewModel.removeItem(from)
     }
 
-    class TaskViewHolder(val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
+    class TaskViewHolder(private val binding: ItemTaskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(viewModel: TaskViewModel) {
             binding.viewModel = viewModel
             binding.executePendingBindings()
