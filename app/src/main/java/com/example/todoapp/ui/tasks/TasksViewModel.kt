@@ -48,23 +48,26 @@ class TasksViewModel: ViewModel(), TaskNavigator {
     }
 
     fun moveItem(from: Int, to: Int, onItemMoved: () -> Unit) {
-        // Don't call OnListChangedCallback.
-        removeObservableListCallback()
+        removeObservableListCallback() // Stop calling OnListChangedCallback >>>>>
         moveItem(from, to)
         onItemMoved()
-        restoreObservableListCallback()
+        restoreObservableListCallback() // <<<<< Restore OnListChangedCallback
     }
 
     private fun moveItem(from: Int, to: Int) {
         val target = taskItems[from]
         taskItems.removeAt(from)
         taskItems.add(to, target)
+
+        // Save items to repository here
     }
 
     fun removeItem(from: Int) {
         storeLastItem(from)
         taskItems.removeAt(from)
         listener?.onRemoveItem()
+
+        // Save items to repository here
     }
 
     private fun storeLastItem(index: Int) {
