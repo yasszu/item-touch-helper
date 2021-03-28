@@ -1,35 +1,38 @@
 package com.example.todoapp.helper
 
 import android.graphics.Canvas
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
+import kotlin.math.abs
 
 
 /**
  * Created by Yasuhiro Suzuki on 2017/07/09.
  */
-class ItemTouchHelperCallback(val adapter: ItemTouchHelperAdapter): ItemTouchHelper.SimpleCallback(
+class ItemTouchHelperCallback(private val adapter: ItemTouchHelperAdapter): ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN,
         ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
-    val ALPHA_FULL = 1.0f
-    val ALPHA_MAGNIFICATION = 1.2f
+    companion object {
+        const val ALPHA_FULL = 1.0f
+        const val ALPHA_MAGNIFICATION = 1.2f
+    }
 
     override fun onMove(recyclerView: RecyclerView, holder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-        val fromPos = holder.adapterPosition
-        val toPos = target.adapterPosition
-        adapter.onMoveItem(fromPos, toPos)
+        val from = holder.adapterPosition
+        val to = target.adapterPosition
+        adapter.onMoveItem(from, to)
         return true
     }
 
     override fun onSwiped(holder: RecyclerView.ViewHolder, direction: Int) {
-        val fromPos = holder.adapterPosition
-        adapter.onRemoveItem(fromPos)
+        val from = holder.adapterPosition
+        adapter.onRemoveItem(from)
     }
 
-    override fun onChildDraw(c: Canvas?, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+    override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-            val alpha = ALPHA_FULL - (Math.abs(dX) / viewHolder.itemView.width.toFloat()) * ALPHA_MAGNIFICATION
+            val alpha = ALPHA_FULL - (abs(dX) / viewHolder.itemView.width.toFloat()) * ALPHA_MAGNIFICATION
             viewHolder.itemView.alpha = alpha
             viewHolder.itemView.translationX = dX
         } else {
