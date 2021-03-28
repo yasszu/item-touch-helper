@@ -7,11 +7,10 @@ Drag and swipe items with RecyclerView
 ![Snapshot](docs/snapshot.gif)
 
 ## Prerequisites
-* Android SDK 25
-* Android Build Tool 25.0.2
-* Android Support Library 25.4.0
-* Android Plugin for Gradle 3.0.0-alpha8
-* Kotlin 1.1.3-2
+* Android SDK 30
+* Android Build Tool 30.0.2
+* Android Plugin for Gradle 4.1.3
+* Kotlin Gradle Plugin 1.4.31
 
 ## Getting Started
-Build with Android Studio 3.0
+Build with Android Studio 4.1.3
